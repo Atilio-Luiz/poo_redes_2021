@@ -11,11 +11,10 @@ Ampliando a atividade de agenda 2, vamos criar uma agenda que gerencia os nossos
 O sistema deverá:
 - Partida
     - Você deve utilizar o código construído na atividade busca. Você deve partir do código do projeto Busca e NÃO DEVE MODIFICAR em nada as classes originais.
-    - Você deverá modificar o contato e a classe agenda para permitir a operação de favoritar contatos.
-    - Para isso o contato ganhará um atributo "star" que marca se ele está favoritado.
-    - A agenda ganhará os métodos star e getStarred para favoritar e pegar os favoritos.
-    - Você deve criar uma classe ContatoStar que herda de contato e adiciona a ação de favoritar.
-    - Você deve criar uma classe AgendaStar que herda de agenda e adiciona a ação de favoritar e pegar favoritos.
+    - Você deve criar uma classe **ContactStar** que herda de *Contact* e adiciona a ação de favoritar.
+        - Para isso o novo contato ganhará um atributo `star` que marca se ele está favoritado.
+    - Você deve criar uma classe **AgendaStar** que herda de *Agenda* e adiciona a ação de favoritar e pegar favoritos.
+        - A nova agenda ganhará os métodos `star` e `getStarred` para favoritar e pegar os favoritos.
 - Mostrando
     - Ordenar os contatos pelo idContato.
     - Se o contato não for favorito (starred) use - antes do idContato.
@@ -25,7 +24,8 @@ O sistema deverá:
     - Favoritar contatos. (star)
     - Desfavoritar contatos. (unstar)
     - Mostrar apenas os favoritos. (starred)
-- Sua AgendaStar deve ser capaz de manipular tanto contatos normais quanto ContactStar, mas só deve ser capaz de favoritar ContactStar
+
+- Sua **AgendaStar** deve ser capaz de manipular tanto contatos normais quanto ContactStar, mas só deve ser capaz de favoritar ContactStar
 
 ## Shell
 
@@ -110,10 +110,10 @@ public class Fone {
     //oi:1234
     public String toString();
     //GETS e SETS
-    String getId();
-    void setId(String id);
-    String getNumber();
-    void setNumber(String number);
+    public String getId();
+    public void setId(String id);
+    public String getNumber();
+    public void setNumber(String number);
     //utiliza o static validate para retornar se essa instancia do fone é valida
     public boolean isValid();
 }
@@ -121,10 +121,8 @@ class Contact {
     private String name;
     private List<Fone> fones;
     protected String prefix = "-"; //utilizado no toString
-    private boolean star;
     //Crie um ArrayList para o ATRIBUTO fones
     //Se a variável fones não for null, adicione todos os fones usando o método addFone
-    //Inicie star como false
     public Contact(String name, List<Fone> fones);
     //Se fone for válido, insira no atributo fones
     //Se não, informe o erro
@@ -137,21 +135,21 @@ class Contact {
     //- david [0:oi:123] [1:tim:9081] [2:claro:5431]
     public String toString();
     //GETS e SETS
-    String getName();
-    void setName(String name);
-    List<Fone> getFones();
+    public String getName();
+    public void setName(String name);
+    public List<Fone> getFones();
     //limpe a lista de fones
     //utilize o addFone para adicionar apenas os fones válidos
-    public void setFones(List<Fone> fones); 
+    public void setFones(List<Fone> fones);
 }
 class Agenda {
     private List<Contact> contacts;
     public Agenda();
     //retorna a posição do contato com esse nome no vetor ou -1 se não existir.
-    private int findPos(String name);
+    private int findPosByName(String name);
     //retorna o objeto contato com esse nome ou null se não existir
-    //utilize o método findPos
-    public Contact getContact(String name);
+    //utilize o método findPosByName
+    public Contact findContact(String name);
     //se nenhum contato existir com esse nome, adicione
     //se ja existir, faça o merge adicionando os telefones
     public void addContact(Contact contact);
@@ -160,8 +158,8 @@ class Agenda {
     //Monte uma lista auxiliar procurando no .toString() de cada contato
     //se ele possui a substring procurada.
     public List<Contact> search(String pattern);
+    public List<Contact> getContacts();
     public String toString();
-    List<Contact> getContacts();
 }
 class ContactStar extends Contact {
     private boolean star;
@@ -200,10 +198,10 @@ class Solver {
                 agenda = new AgendaStar();
             } else if(ui[0].equals("add")) { //name label:fone label:fone label:fone
                 agenda.addContact(Solver.parseContact(ui));
-            } else if(ui[0].equals("rm")) { //name
-                agenda.rmContact(ui[1]);;
+            } else if(ui[0].equals("rmContact")) { //name
+                agenda.rmContact(ui[1]);
             } else if(ui[0].equals("rmFone")) { //name index
-                agenda.getContact(ui[1]).rmFone(Integer.parseInt(ui[2]));
+                agenda.findContact(ui[1]).rmFone(Integer.parseInt(ui[2]));
             } else if(ui[0].equals("show")) {
                 System.out.println(agenda);
             } else if(ui[0].equals("star")) {

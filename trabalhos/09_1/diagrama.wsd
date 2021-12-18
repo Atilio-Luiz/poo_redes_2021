@@ -32,17 +32,17 @@ class Contact {
     ..
     + getFones() : List<Fone> 
     + getName() : String 
-    + setFones(fones : List<Fone>)
     + setName(name : String)
+    + setFones(fones : List<Fone>)
 }
 class Fone {
     - id : String 
     - number : String 
     __
-    + Fone(id : String, number : String)
-    + isValid() : boolean 
+    + Fone(id : String, number : String) 
     + {static} validate(number : String) : boolean 
     + toString() : String
+    + isValid() : boolean
     ..
     + getId() : String 
     + getNumber() : String 
