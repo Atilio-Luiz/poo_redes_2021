@@ -129,6 +129,6 @@ C:\\Users\\lucas\\Documents\\javafxsdk17.0.1\\lib
 \"C:\\Users\\lucas\\Area de trabalho\\javafx sdk11.0.2\\lib\"
 ```
 
-- Agora salve, execute e curte a janelinha:
+- Agora salve e execute:
 
 ![](images/janela.png)
