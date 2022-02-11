@@ -1,0 +1,77 @@
+@startuml diagrama
+skinparam classAttributeIconSize 0
+skinparam nodesep 70
+skinparam ranksep 60
+class Hospital {
+  - medicos : TreeMap<String, IMedico>
+  - pacientes : TreeMap<String, IPaciente>
+  __
+  + Hospital()
+  + addMedico(medico : IMedico)
+  + addPaciente(paciente : IPaciente)
+  + removerMedico(sender : String)
+  + removerPaciente(sender : String)
+  + vincular(nomeMedico : String, nomePaciente : String)
+  ..
+  + toString() : String
+}
+~interface IMedico {
+  + addPaciente(IPaciente) {abstract}
+  + removerPaciente(String) {abstract}
+  ..
+  + getClasse() : String {abstract}
+  + getId() : String {abstract}
+  + getPacientes() : Collection<IPaciente> {abstract}
+  ..
+  + toString() : String
+}
+~interface IPaciente {
+  + addMedico(IMedico) {abstract}
+  + removerMedico(String) {abstract}
+  ..
+  + getDiagnostico() : String {abstract}
+  + getId() : String {abstract}
+  + getMedicos() : Collection<IMedico> {abstract}
+  ..
+  + toString() : String
+}
+class Medico {
+  ~ classe : String
+  ~ pacientes : TreeMap<String, IPaciente>
+  ~ sender : String
+  __
+  + Medico(sender : String, classe : String)
+  + addPaciente(paciente : IPaciente)
+  + removerPaciente(idPaciente : String)
+  ..
+  + getClasse() : String
+  + getId() : String
+  + getPacientes() : Collection<IPaciente>
+  ..
+  + toString() : String
+}
+class Paciente {
+  # diagnostico : String
+  # medicos : TreeMap<String, IMedico>
+  # sender : String
+  __
+  + Paciente(sender : String, diagnostico : String)
+  + addMedico(medico : IMedico)
+  + removerMedico(idMedico : String)
+  ..
+  + getDiagnostico() : String
+  + getId() : String
+  + getMedicos() : Collection<IMedico>
+  ..
+  + toString() : String
+}
+
+Medico .u|> IMedico 
+IPaciente <|.. Paciente 
+Medico "1" -o "0..*" IPaciente
+Medico "1" -[hidden]-----> "0..*" IPaciente
+IMedico "0..*" o- "1" Paciente
+Hospital "1" --* "0..*" IMedico
+Hospital "1" -* "0..*" IPaciente
+
+@enduml
