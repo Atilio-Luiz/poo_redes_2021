@@ -80,6 +80,9 @@ $setBonus 600
 $show gilmario 
 sta:gilmario:3:4200
 
+#__case bonus
+
+# um bonus de 300, para 3 funcionários vai dar 100 reais pra cada
 $setBonus 300
 $show gilmario
 sta:gilmario:3:4100
